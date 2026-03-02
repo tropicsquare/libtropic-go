@@ -1,10 +1,10 @@
 # Task 7 Progress: Simulator — queued mode
 
-**Status:** in_progress
+**Status:** completed
 
 ## Steps
-- [ ] Write hal/sim/sim_test.go (failing test)
-- [ ] Run test — verify it fails
-- [ ] Write hal/sim/sim.go (implementation)
-- [ ] Run test — verify it passes
-- [ ] Commit
+- [x] Write hal/sim/sim_test.go (failing test)
+- [x] Run test — verify it fails
+- [x] Write hal/sim/sim.go (implementation)
+- [x] Run test — verify it passes
+- [x] Commit
