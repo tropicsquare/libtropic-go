@@ -79,9 +79,11 @@ func (d *Device) Ping(data []byte) ([]byte, error) {
 	if err := l3Check(resp); err != nil {
 		return nil, err
 	}
-	// Return data bytes after the result byte.
+	// Return a copy of the data bytes after the result byte.
 	if len(resp) > 1 {
-		return resp[1:], nil
+		data := make([]byte, len(resp)-1)
+		copy(data, resp[1:])
+		return data, nil
 	}
 	return nil, nil
 }
