@@ -9,7 +9,7 @@ import (
 // matching the C lt_l3_nonce_increase which treats nonce[0..3] as a uint32 LE.
 // The upper bytes (iv[4:12]) are always zero and remain unchanged.
 func l3IncrementIV(iv []byte) {
-	for i := 0; i < 4; i++ {
+	for i := range 4 {
 		iv[i]++
 		if iv[i] != 0 {
 			break
