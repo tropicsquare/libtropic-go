@@ -1,3 +1,3 @@
-module go-libtropic
+module libtropic-go
 
 go 1.26
