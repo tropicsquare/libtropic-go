@@ -26,9 +26,9 @@ func runECCEdDSA(dev *tropic01.Device) error {
 
 	const eccSlot byte = 0
 
-	// Erase ECC slot 0.
+	// Erase ECC slot 0 (ignore if already empty).
 	fmt.Printf("Erasing ECC slot %d...\n", eccSlot)
-	if err := dev.ECCKeyErase(eccSlot); err != nil {
+	if err := dev.ECCKeyErase(eccSlot); err != nil && err != tropic01.ErrL3SlotEmpty {
 		return fmt.Errorf("ecc key erase: %w", err)
 	}
 
@@ -44,11 +44,11 @@ func runECCEdDSA(dev *tropic01.Device) error {
 	if err != nil {
 		return fmt.Errorf("ecc key read: %w", err)
 	}
-	// keyData: curve(1) || origin(1) || padding(1) || pubkey(32)
-	if len(keyData) < 3+32 {
+	// keyData: curve(1) || origin(1) || padding(13) || pubkey(32)
+	if len(keyData) < 15+32 {
 		return fmt.Errorf("unexpected key data length: %d", len(keyData))
 	}
-	pubKey := ed25519.PublicKey(keyData[3 : 3+32])
+	pubKey := ed25519.PublicKey(keyData[15 : 15+32])
 	fmt.Printf("Public key: %x\n", pubKey)
 
 	// Sign a SHA-256 hash.

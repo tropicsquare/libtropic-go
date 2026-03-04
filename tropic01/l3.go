@@ -28,7 +28,7 @@ func l3IncrementIV(iv []byte) {
 // tag, verifies the tag, derives session keys, and stores them in d.session.
 //
 // Mirrors lt_out__session_start + lt_in__session_start in libtropic_l3.c.
-func l3SessionStart(d *Device, shPriv, siPub []byte, pkeyIndex byte) error {
+func l3SessionStart(d *Device, shPriv, shPub, stpub []byte, pkeyIndex byte) error {
 	// Invalidate any previous session.
 	d.session = sessionState{}
 
@@ -38,7 +38,6 @@ func l3SessionStart(d *Device, shPriv, siPub []byte, pkeyIndex byte) error {
 	if err != nil {
 		return ErrParam
 	}
-	shPub := shKey.PublicKey().Bytes()
 
 	// Generate ephemeral host key pair.
 	ehKey, err := curve.GenerateKey(rand.Reader)
@@ -59,7 +58,7 @@ func l3SessionStart(d *Device, shPriv, siPub []byte, pkeyIndex byte) error {
 	h = sha256Hash(append(h, shPub...))
 
 	// h = SHA256(h || STPUB)   — chip's static public key (from cert)
-	h = sha256Hash(append(h, siPub...))
+	h = sha256Hash(append(h, stpub...))
 
 	// h = SHA256(h || EHPUB)   — host's ephemeral public key
 	h = sha256Hash(append(h, ehPub...))
@@ -106,7 +105,7 @@ func l3SessionStart(d *Device, shPriv, siPub []byte, pkeyIndex byte) error {
 	// matching the C output_1[33] array which is zero-initialised.
 
 	// ES = X25519(ehpriv, etpub)
-	siPubKey, err := curve.NewPublicKey(siPub)
+	stPubKey, err := curve.NewPublicKey(stpub)
 	if err != nil {
 		return ErrCrypto
 	}
@@ -122,7 +121,7 @@ func l3SessionStart(d *Device, shPriv, siPub []byte, pkeyIndex byte) error {
 	}
 
 	// ES2 = X25519(ehpriv, stpub)
-	es2, err := ehKey.ECDH(siPubKey)
+	es2, err := ehKey.ECDH(stPubKey)
 	if err != nil {
 		return ErrCrypto
 	}
@@ -207,7 +206,10 @@ func l3EncryptSend(d *Device, cmdPayload []byte) error {
 	copy(payload[2:], ct)
 	copy(payload[2+len(ct):], tag)
 
-	return l2Send(d, l2ReqEncryptedCmd, payload)
+	// Send the encrypted command and read the L2 acknowledgment (ReqOk).
+	// The actual encrypted response is read separately by l3DecryptReceive.
+	_, err = l2SendRecv(d, l2ReqEncryptedCmd, payload)
+	return err
 }
 
 // l3DecryptReceive receives an ENCRYPTED_CMD response from the chip and

@@ -120,11 +120,50 @@ func l2Receive(d *Device) ([]byte, error) {
 	return result, nil
 }
 
-// l2SendRecv is a convenience wrapper that sends a request and receives the
-// corresponding response in a single call.
+// l2TransferRetries is the number of outer retry attempts in l2SendRecv,
+// mirroring Rust's l2_transfer_helper which retries up to 4 times.
+const l2TransferRetries = 4
+
+// l2SendRecv sends a request and receives the response, retrying on recoverable
+// errors (CRC error after reboot, generic error). Mirrors Rust's l2_transfer_helper.
 func l2SendRecv(d *Device, reqID byte, payload []byte) ([]byte, error) {
-	if err := l2Send(d, reqID, payload); err != nil {
-		return nil, err
+	currentReqID := reqID
+	currentPayload := payload
+
+	for range l2TransferRetries {
+		if err := l2Send(d, currentReqID, currentPayload); err != nil {
+			return nil, err
+		}
+
+		if err := l1Read(d); err != nil {
+			return nil, err
+		}
+
+		err := l2FrameCheck(d.l2buf[:])
+		switch err {
+		case nil:
+			// Success — extract DATA payload.
+			length := int(d.l2buf[l2RespLenOffset])
+			result := make([]byte, length)
+			copy(result, d.l2buf[l2RespDataOffset:l2RespDataOffset+length])
+			return result, nil
+
+		case ErrL2CRCErr:
+			// CRC error from chip — may happen right after reboot.
+			// Wait and retry with the original request.
+			_ = d.t.Delay(l1RetryDelay)
+			currentReqID = reqID
+			currentPayload = payload
+
+		case ErrL2GenErr:
+			// Generic error — ask chip to resend last response.
+			currentReqID = l2ReqResend
+			currentPayload = nil
+
+		default:
+			return nil, err
+		}
 	}
-	return l2Receive(d)
+
+	return nil, ErrL2StatusUnknown
 }

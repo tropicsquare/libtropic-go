@@ -68,14 +68,17 @@ func (t *Transport) Deinit() error {
 	return nil
 }
 
-// CSNLow asserts chip-select by sending "CS=0\n" to the dongle.
+// CSNLow is a no-op for the USB dongle.
+// The dongle firmware automatically asserts CS when it receives a hex exchange
+// command, so no explicit CS assert is needed.
 func (t *Transport) CSNLow() error {
-	return t.sendExpectOK("CS=0\n")
+	return nil
 }
 
-// CSNHigh deasserts chip-select by sending "CS=1\n" to the dongle.
+// CSNHigh deasserts chip-select by sending "CS=0\n" to the dongle.
+// This tells the dongle firmware to release the CS line after a transfer.
 func (t *Transport) CSNHigh() error {
-	return t.sendExpectOK("CS=1\n")
+	return t.sendExpectOK("CS=0\n")
 }
 
 // Transfer performs a full-duplex SPI exchange via the dongle.

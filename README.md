@@ -110,7 +110,7 @@ func main() {
 
 | Method | Description |
 |--------|-------------|
-| `SessionStart(shPriv, siPub []byte, pkeyIndex byte) error` | Noise_KK1 handshake |
+| `SessionStart(shPriv, shPub []byte, pkeyIndex byte) error` | Noise_KK1 handshake (reads chip cert internally) |
 | `SessionAbort() error` | Abort the current session |
 
 ### L3 Encrypted Commands (session required)

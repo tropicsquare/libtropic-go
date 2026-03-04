@@ -40,19 +40,19 @@ const (
 	l2ReqStartup      = 0xb3
 	l2ReqGetLog       = 0xa2
 
-	// L2 status codes (mirrors libtropic_common.h TR01_L2_STATUS_*)
+	// L2 status codes (mirrors Rust ResponseStatus enum in lt_2.rs)
 	l2StatusRequestOK    = 0x01
 	l2StatusResultOK     = 0x02
 	l2StatusRequestCont  = 0x03
 	l2StatusResultCont   = 0x04
-	l2StatusHSKErr       = 0x05
-	l2StatusNoSession    = 0x06
-	l2StatusTagErr       = 0x07
-	l2StatusCRCErr       = 0x08
-	l2StatusGenErr       = 0x09
-	l2StatusNoResp       = 0x0a
-	l2StatusUnknownErr   = 0x0b
-	l2StatusRespDisabled = 0x0c
+	l2StatusRespDisabled = 0x78
+	l2StatusHSKErr       = 0x79
+	l2StatusNoSession    = 0x7a
+	l2StatusTagErr       = 0x7b
+	l2StatusCRCErr       = 0x7c
+	l2StatusUnknownErr   = 0x7e
+	l2StatusGenErr       = 0x7f
+	l2StatusNoResp       = 0xff
 )
 
 // L3 packet constants.
@@ -110,14 +110,14 @@ const (
 	EccCurveP256    byte = 0x01
 	EccCurveEd25519 byte = 0x02
 
-	SleepReqSleep     byte = 0x00
-	SleepReqDeepSleep byte = 0x01
+	SleepReqSleep     byte = 0x05
+	SleepReqDeepSleep byte = 0x0a
 
-	StartupReqReboot            byte = 0x00
-	StartupReqMaintenanceReboot byte = 0x01
+	StartupReqReboot            byte = 0x01
+	StartupReqMaintenanceReboot byte = 0x03
 
-	BankIDRiscvFw1 byte = 0x00
-	BankIDRiscvFw2 byte = 0x01
-	BankIDSpectFw1 byte = 0x02
-	BankIDSpectFw2 byte = 0x03
+	BankIDRiscvFw1 byte = 1
+	BankIDRiscvFw2 byte = 2
+	BankIDSpectFw1 byte = 17
+	BankIDSpectFw2 byte = 18
 )

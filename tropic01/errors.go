@@ -47,8 +47,17 @@ const (
 	ErrL3HibernateErr   Error = 38
 	ErrL3SetupErr       Error = 39
 	ErrL3SlotExpired    Error = 40
-	ErrL2RspLenError    Error = 41
-	ErrNotImplemented   Error = 42
+	ErrL2RspLenError       Error = 41
+	ErrNotImplemented      Error = 42
+	ErrL3CmdFailed         Error = 43
+	ErrL3InvalidCmd        Error = 44
+	ErrL3SlotNotEmpty      Error = 45
+	ErrL3InvalidKey        Error = 46
+	ErrL3UpdateErr         Error = 47
+	ErrL3CounterInvalid    Error = 48
+	ErrL3SlotEmpty         Error = 49
+	ErrL3SlotInvalid       Error = 50
+	ErrL3HardwareFail      Error = 51
 )
 
 var errorStrings = map[Error]string{
@@ -93,8 +102,17 @@ var errorStrings = map[Error]string{
 	ErrL3HibernateErr:   "L3 hibernate error",
 	ErrL3SetupErr:       "L3 setup error",
 	ErrL3SlotExpired:    "L3 slot expired",
-	ErrL2RspLenError:    "L2 response length error",
-	ErrNotImplemented:   "not implemented",
+	ErrL2RspLenError:       "L2 response length error",
+	ErrNotImplemented:      "not implemented",
+	ErrL3CmdFailed:         "L3 command failed",
+	ErrL3InvalidCmd:        "L3 invalid command",
+	ErrL3SlotNotEmpty:      "L3 slot not empty",
+	ErrL3InvalidKey:        "L3 invalid key",
+	ErrL3UpdateErr:         "L3 update error",
+	ErrL3CounterInvalid:    "L3 counter invalid",
+	ErrL3SlotEmpty:         "L3 slot empty",
+	ErrL3SlotInvalid:       "L3 slot invalid",
+	ErrL3HardwareFail:      "L3 hardware fail",
 }
 
 func (e Error) Error() string {

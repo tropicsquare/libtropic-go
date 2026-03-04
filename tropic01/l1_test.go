@@ -12,9 +12,11 @@ func TestL1Write(t *testing.T) {
 	if err := d.Init(); err != nil {
 		t.Fatal(err)
 	}
-	// l1Write sends d.l2buf[0:length] via CSNLow → Transfer → CSNHigh.
-	// Enqueue a dummy response so the transfer succeeds.
-	s.EnqueueResponse(make([]byte, 4))
+	// l1Write now retries until chip reports READY.
+	// Enqueue a response with the READY bit set in chip status (byte 0).
+	resp := make([]byte, 4)
+	resp[0] = l1StatusReady
+	s.EnqueueResponse(resp)
 	d.l2buf[0] = 0xAB
 	d.l2buf[1] = 0xCD
 	if err := l1Write(d, 2); err != nil {

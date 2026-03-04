@@ -126,7 +126,7 @@ func TestL2FrameCheck(t *testing.T) {
 		{
 			"unknown status byte",
 			func() []byte {
-				return []byte{0x00, 0xFF, 0x00, 0x00, 0x00}
+				return []byte{0x00, 0xFE, 0x00, 0x00, 0x00}
 			},
 			ErrL2StatusUnknown,
 		},
@@ -203,23 +203,18 @@ func (s *scriptedTransport) CSNHigh() error               { return nil }
 
 func (s *scriptedTransport) Transfer(buf []byte) error {
 	s.callCount++
-	// Call 1: l1Write — outgoing frame; ignore it (nothing to return).
-	// Call 2: l1Read chip-status poll — return READY.
-	// Call 3: l1Read STATUS+LEN bytes.
-	// Call 4: l1Read DATA+CRC bytes.
+	// Call 1: l1Write — outgoing frame. l1Write retries until READY,
+	//         so we must return chip status = READY so it succeeds immediately.
+	// Call 2: l1Read — single full-buffer transfer returning the complete
+	//         response: chip_status + STATUS + LEN + DATA + CRC.
 	switch s.callCount {
 	case 1:
-		// outgoing write, nothing to inject
-	case 2:
-		// chip-status: return READY
+		// outgoing write — report chip READY so l1Write stops retrying
 		buf[0] = l1StatusReady
-	case 3:
-		// STATUS and LEN
-		buf[0] = s.response[1]
-		buf[1] = s.response[2]
-	case 4:
-		// DATA + CRC
-		copy(buf, s.response[3:])
+	case 2:
+		// Full response: chip_status(READY) + response frame
+		buf[0] = l1StatusReady
+		copy(buf[1:], s.response[1:])
 	default:
 		s.t.Errorf("scriptedTransport: unexpected Transfer call #%d", s.callCount)
 	}
