@@ -78,8 +78,9 @@ func l3SessionStart(d *Device, shPriv, siPub []byte, pkeyIndex byte) error {
 	}
 
 	// HANDSHAKE response data: [ETPUB(32) || t_tauth(16)] = 48 bytes
-	if len(rspData) < 48 {
-		return ErrL2HSKErr
+	// Mirrors the TR01_L2_HANDSHAKE_RSP_LEN exact-length check added in v3.2.0.
+	if len(rspData) != 48 {
+		return ErrL2RspLenError
 	}
 	etPub := rspData[:32]
 	tTauth := rspData[32:48]

@@ -47,7 +47,7 @@ const (
 	ErrL3HibernateErr   Error = 38
 	ErrL3SetupErr       Error = 39
 	ErrL3SlotExpired    Error = 40
-	ErrL3Undefined      Error = 41
+	ErrL2RspLenError    Error = 41
 	ErrNotImplemented   Error = 42
 )
 
@@ -93,7 +93,7 @@ var errorStrings = map[Error]string{
 	ErrL3HibernateErr:   "L3 hibernate error",
 	ErrL3SetupErr:       "L3 setup error",
 	ErrL3SlotExpired:    "L3 slot expired",
-	ErrL3Undefined:      "L3 undefined error",
+	ErrL2RspLenError:    "L2 response length error",
 	ErrNotImplemented:   "not implemented",
 }
 
