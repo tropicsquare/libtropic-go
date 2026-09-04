@@ -1,5 +1,9 @@
 # libtropic-go
 
+> [!WARNING]
+> This is a community-driven project. While this repository is hosted by Tropic Square, the code is not officially supported or maintained by them.
+> Tropic Square is not responsible for this code. Do not use it for production unless you know what you are doing.
+
 Pure-Go host driver for the [TROPIC01](https://tropicsquare.com/tropic01) secure element.
 
 This library implements the full TROPIC01 communication protocol (L1 SPI framing, L2 request/response, L3 Noise-encrypted session) with no CGo or external C dependencies. It is aligned with the reference [C library](https://github.com/tropicsquare/libtropic) and the [Rust crate](https://github.com/tropicsquare/libtropic-rs).
