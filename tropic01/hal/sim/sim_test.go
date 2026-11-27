@@ -3,7 +3,7 @@ package sim_test
 import (
 	"testing"
 
-	"libtropic-go/tropic01/hal/sim"
+	"github.com/tropicsquare/libtropic-go/tropic01/hal/sim"
 )
 
 func TestQueuedTransfer(t *testing.T) {

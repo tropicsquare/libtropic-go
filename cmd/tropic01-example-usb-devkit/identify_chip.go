@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	tropic01 "libtropic-go/tropic01"
+	"github.com/tropicsquare/libtropic-go/tropic01"
 )
 
 func runIdentifyChip(dev *tropic01.Device) error {

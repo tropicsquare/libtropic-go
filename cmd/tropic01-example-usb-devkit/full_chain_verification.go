@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	tropic01 "libtropic-go/tropic01"
+	"github.com/tropicsquare/libtropic-go/tropic01"
 )
 
 func runFullChainVerification(dev *tropic01.Device) error {

@@ -3,7 +3,7 @@ package tropic01
 import (
 	"testing"
 
-	"libtropic-go/tropic01/hal/sim"
+	"github.com/tropicsquare/libtropic-go/tropic01/hal/sim"
 )
 
 func TestL1Write(t *testing.T) {

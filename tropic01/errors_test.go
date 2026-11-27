@@ -3,7 +3,7 @@ package tropic01_test
 import (
 	"testing"
 
-	tropic01 "libtropic-go/tropic01"
+	"github.com/tropicsquare/libtropic-go/tropic01"
 )
 
 func TestErrorString(t *testing.T) {

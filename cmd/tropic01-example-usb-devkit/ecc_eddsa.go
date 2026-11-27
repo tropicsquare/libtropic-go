@@ -5,8 +5,8 @@ import (
 	"crypto/sha256"
 	"fmt"
 
-	tropic01 "libtropic-go/tropic01"
-	"libtropic-go/tropic01/keys"
+	"github.com/tropicsquare/libtropic-go/tropic01"
+	"github.com/tropicsquare/libtropic-go/tropic01/keys"
 )
 
 func runECCEdDSA(dev *tropic01.Device) error {

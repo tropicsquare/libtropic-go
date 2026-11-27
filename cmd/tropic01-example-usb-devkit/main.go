@@ -13,8 +13,8 @@ import (
 	"fmt"
 	"os"
 
-	tropic01 "libtropic-go/tropic01"
-	"libtropic-go/tropic01/hal/usbdongle"
+	"github.com/tropicsquare/libtropic-go/tropic01"
+	"github.com/tropicsquare/libtropic-go/tropic01/hal/usbdongle"
 )
 
 const defaultDevice = "/dev/ttyACM0"

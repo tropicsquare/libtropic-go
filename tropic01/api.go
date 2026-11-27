@@ -3,7 +3,7 @@ package tropic01
 import (
 	"encoding/binary"
 
-	"libtropic-go/tropic01/internal/asn1der"
+	"github.com/tropicsquare/libtropic-go/tropic01/internal/asn1der"
 )
 
 // L3 result status codes — first byte of decrypted L3 response.

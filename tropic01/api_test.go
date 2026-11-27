@@ -3,8 +3,8 @@ package tropic01_test
 import (
 	"testing"
 
-	tropic01 "libtropic-go/tropic01"
-	"libtropic-go/tropic01/hal/sim"
+	"github.com/tropicsquare/libtropic-go/tropic01"
+	"github.com/tropicsquare/libtropic-go/tropic01/hal/sim"
 )
 
 func newTestDevice(t *testing.T) *tropic01.Device {

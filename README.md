@@ -14,7 +14,7 @@ This library implements the full TROPIC01 communication protocol (L1 SPI framing
 go get libtropic-go
 ```
 
-Requires Go 1.22 or later.
+Requires Go 1.25 or later.
 
 ## Quick Start
 
@@ -25,9 +25,9 @@ import (
     "fmt"
     "log"
 
-    "libtropic-go/tropic01"
-    "libtropic-go/tropic01/keys"
-    "libtropic-go/tropic01/hal/usbdongle"
+    "github.com/tropicsquare/libtropic-go/tropic01"
+    "github.com/tropicsquare/libtropic-go/tropic01/keys"
+    "github.com/tropicsquare/libtropic-go/tropic01/hal/usbdongle"
 )
 
 func main() {

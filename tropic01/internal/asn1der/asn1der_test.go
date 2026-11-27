@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"libtropic-go/tropic01/internal/asn1der"
+	"github.com/tropicsquare/libtropic-go/tropic01/internal/asn1der"
 )
 
 func TestExtractSubjectPublicKey(t *testing.T) {

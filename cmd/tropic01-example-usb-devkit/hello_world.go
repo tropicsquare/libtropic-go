@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	tropic01 "libtropic-go/tropic01"
-	"libtropic-go/tropic01/keys"
+	"github.com/tropicsquare/libtropic-go/tropic01"
+	"github.com/tropicsquare/libtropic-go/tropic01/keys"
 )
 
 func runHelloWorld(dev *tropic01.Device) error {
